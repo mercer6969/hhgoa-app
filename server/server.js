@@ -260,7 +260,7 @@ app.post('/api/post', upload.single('image'), async (req, res) => {
     const accessToken = await ensureFreshAccessToken(req);
     const mediaId = await uploadMediaV2(accessToken, req.file);
 
-    const text = (req.body.text || 'Just framed my profile for HH Goa 2026 \uD83C\uDF34 See you in Goa. #FrameInGoa').slice(0, 280);
+    const text = (req.body.text || 'Framed my profile for HH Goa 2026').slice(0, 280);
 
     const tweetResp = await fetch('https://api.x.com/2/tweets', {
       method: 'POST',
