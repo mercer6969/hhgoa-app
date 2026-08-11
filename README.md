@@ -1,5 +1,7 @@
 # HH Goa 2026 — Frame Generator with real X login + posting
 
+**🔗 Live app: [https://hhgoa-app.onrender.com](https://hhgoa-app.onrender.com)**
+
 A small Express app that:
 
 - Generates the HH Goa 2026 boarding-pass frame from an uploaded photo (client-side Canvas, no upload needed just to preview).
@@ -13,10 +15,13 @@ Everything here is real, working code against X's current API. Nothing is mocked
 ## 1. Create an X Developer App
 
 1. Go to [developer.x.com](https://developer.x.com) and create a Project + App (any tier — the free/pay-per-use tier is enough for login + posting).
-2. In the App's **User authentication settings**, turn on OAuth 2.0.
+2. In the App's **User authentication settings**, click **Set up** (or **Edit** if already configured).
+   - **Turn the OAuth 2.0 toggle ON.** This is a separate switch at the top of the form — it's easy to fill in every field below it and still have this left off, which causes X's consent screen to fail with a vague *"Something went wrong / You weren't able to give access to the App"* error and no useful detail.
    - App type: **Web App, Automated App or Bot**
-   - Callback URI: `https://YOUR_DOMAIN/auth/callback` (see step 3 for local dev)
-   - Website URL: anything, e.g. your homepage
+   - App permissions: **Read and write** (required for posting; Read-only will silently break `tweet.write`/`media.write`)
+   - Callback URI: `https://YOUR_DOMAIN/auth/callback` (see step 3 / the deployment section for what `YOUR_DOMAIN` is on Render vs local dev)
+   - Website URL: your app's bare domain, e.g. `https://YOUR_DOMAIN` (leaving this blank or malformed can also break the consent flow)
+   - Click **Save** at the bottom of the form — X sometimes needs an explicit save after toggling OAuth 2.0 for it to actually take effect.
 3. Under **Keys and tokens**, copy the **OAuth 2.0 Client ID and Client Secret** — these go in `.env` as `X_CLIENT_ID` / `X_CLIENT_SECRET`.
 
 That's all you need for login + posting.
@@ -32,7 +37,7 @@ If you want to try it anyway: same App → **Keys and tokens** → **Consumer Ke
 
 ---
 
-## 2. Configure and run
+## 2. Configure and run locally
 
 ```bash
 cd server
@@ -42,7 +47,7 @@ npm install
 npm start
 ```
 
-By default this runs at `http://127.0.0.1:3000`.
+By default this runs at `http://127.0.0.1:3000` — that address is a **local-only default** hardcoded as the fallback for `APP_BASE_URL`. It only works on your own machine; it is not reachable from the internet and must never be used as the value once you deploy (see below).
 
 ### Local development and OAuth callbacks
 
@@ -59,14 +64,36 @@ Take the `https://xxxx.ngrok-free.app` URL it gives you, and:
 
 ---
 
-## 3. Deploying
+## 3. Deploying (e.g. to Render)
 
-This is a plain Node/Express app — deploy it anywhere that runs Node 18+ (Render, Railway, Fly.io, a VPS, etc.):
+This is a plain Node/Express app — deploy it anywhere that runs Node 18+ (Render, Railway, Fly.io, a VPS, etc.). Using Render as an example:
 
-- Set `APP_BASE_URL` to your real HTTPS domain.
-- Set the callback URIs in the X Developer Portal to match.
-- Set a strong random `SESSION_SECRET`.
-- The session store here is Express's default in-memory store — fine for one instance / low traffic. For anything beyond that, swap in a real store (Redis via `connect-redis`, etc.) — sessions currently won't survive a server restart or work across multiple instances.
+1. **Find your Render URL.** After creating the web service, Render shows a live URL at the top of the service page, e.g. `https://hhgoa-app.onrender.com`. This is served over HTTPS on the standard port — there is no port number in the URL, and you don't choose or add one.
+2. **Set `APP_BASE_URL` in Render's Environment tab** to that bare URL, exactly, with **no trailing slash and no path appended** — just `https://hhgoa-app.onrender.com`. The server builds the actual callback path itself (`${APP_BASE_URL}/auth/callback`); do not put `/auth/callback` into `APP_BASE_URL`.
+3. **Set the callback URIs in the X Developer Portal** to match:
+   - Callback URI: `https://hhgoa-app.onrender.com/auth/callback`
+   - Website URL: `https://hhgoa-app.onrender.com`
+   - (and `https://hhgoa-app.onrender.com/auth/x1/callback` too, if using the profile-picture feature)
+4. **Set a strong random `SESSION_SECRET`**, and `X_CLIENT_ID` / `X_CLIENT_SECRET` (and optionally `X_API_KEY` / `X_API_SECRET`), all in Render's Environment tab.
+5. **Redeploy** after changing any environment variable — Render usually does this automatically, but you can force it with Manual Deploy. Wait for the status to show **Live** before retesting.
+6. **Confirm the env var actually took effect** by checking Render's Logs tab on startup — it should print:
+   ```
+   OAuth2 callback: https://hhgoa-app.onrender.com/auth/callback
+   ```
+   If it still prints `127.0.0.1:3000` here, `APP_BASE_URL` did not get picked up — double-check the Environment tab and trigger a fresh deploy.
+7. The session store here is Express's default in-memory store — fine for one instance / low traffic. For anything beyond that, swap in a real store (Redis via `connect-redis`, etc.) — sessions currently won't survive a server restart or work across multiple instances.
+
+### Troubleshooting: "Something went wrong — You weren't able to give access to the App"
+
+This error appears on **X's own consent screen**, before X ever redirects back to your server — so it will **not** show up in your Render logs, and it's not something wrong with `server.js`. Check, in this order:
+
+1. **OAuth 2.0 toggle is ON** in User authentication settings (see step 2 above) — the single most common cause.
+2. **Type of App** is `Web App, Automated App or Bot`, not `Native App` or `Single Page App` — a public-client app type conflicts with this server's confidential-client (client secret) token exchange.
+3. **App permissions** is `Read and write`, not `Read` only.
+4. **Callback URI matches `APP_BASE_URL` + `/auth/callback` exactly** — same scheme, same host, no trailing slash mismatches.
+5. **Website URL is filled in and valid.**
+6. The App/Project isn't suspended or pending re-acceptance of the developer agreement (check for banners on the dashboard).
+7. Retry in an incognito/private window in case a previous failed attempt is cached.
 
 ---
 
