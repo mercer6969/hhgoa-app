@@ -1,6 +1,6 @@
 # HH Goa 2026 — Frame Generator with real X login + posting
 
-**🔗 Live app: [https://hhgoa-app.onrender.com](https://hhgoa-app.onrender.com)**
+**🔗 Live app:https://mercer6969.github.io/hhgoa-app/
 
 A small Express app that:
 
