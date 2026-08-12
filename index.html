@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hacker House Goa 2026 — Frame Your Goa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ultra&family=Baloo+2:wght@500;700&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green: #1B5E3B;
+    --green-deep: #0E3823;
+    --green-light: #276A42;
+    --yellow: #F5CB2C;
+    --yellow-deep: #C6871B;
+    --pink: #EA1C79;
+    --pink-deep: #9A1153;
+    --cream: #F5EEDA;
+    --ink: #0B1F15;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background-color: var(--green-deep);
+    background-image:
+      repeating-linear-gradient(-45deg, rgba(245,238,218,0.045) 0 2px, transparent 2px 18px);
+    color: var(--cream);
+    font-family: "Space Grotesk", sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{
+    width:100%;
+    max-width:480px;
+    padding: 18px 18px 40px;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+
+  /* ---------- header ---------- */
+  header.top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 6px 2px 22px;
+  }
+  .lockup{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    position:relative;
+  }
+  .lockup .word{
+    font-family:"Ultra", serif;
+    font-size:15px;
+    line-height:1;
+    letter-spacing:0.5px;
+    color: var(--yellow);
+    text-shadow: 2px 2px 0 var(--green-deep);
+  }
+  .lockup .badge{
+    font-family:"Baloo 2", sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color: var(--yellow);
+    background: var(--pink);
+    border-radius:8px;
+    padding: 3px 8px 4px;
+    transform: rotate(-6deg);
+    box-shadow: 2px 2px 0 var(--pink-deep);
+  }
+  .top .meta{
+    font-family:"Space Mono", monospace;
+    font-size:10px;
+    letter-spacing:0.5px;
+    color: rgba(245,238,218,0.65);
+    text-align:right;
+  }
+
+  main{flex:1; display:flex; flex-direction:column;}
+
+  /* ---------- shared card ---------- */
+  .card{
+    background: var(--green);
+    border-radius: 22px;
+    border: 1.5px dashed rgba(245,238,218,0.4);
+    padding: 26px 22px;
+    position:relative;
+  }
+
+  /* ---------- landing ---------- */
+  .view{ display:none; flex-direction:column; flex:1; }
+  .view.active{ display:flex; }
+
+  .eyebrow{
+    display:inline-flex;
+    align-self:flex-start;
+    align-items:center;
+    gap:6px;
+    font-family:"Space Mono", monospace;
+    font-size:11px;
+    letter-spacing:1px;
+    color: var(--cream);
+    border:1.5px dashed rgba(245,238,218,0.55);
+    border-radius:999px;
+    padding: 6px 12px;
+    margin-bottom:22px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--pink); flex:none; }
+
+  h1.headline{
+    font-family:"Ultra", serif;
+    color: var(--yellow);
+    font-size: clamp(40px, 12vw, 58px);
+    line-height:0.98;
+    margin: 0 0 18px;
+    text-shadow: 3px 3px 0 var(--green-deep);
+  }
+  h1.headline .pop{
+    color: var(--pink);
+    -webkit-text-stroke: 1.5px var(--yellow);
+  }
+
+  p.sub{
+    font-size:15px;
+    line-height:1.55;
+    color: rgba(245,238,218,0.88);
+    max-width: 40ch;
+    margin: 0 0 30px;
+  }
+
+  .upload-card{
+    margin-top:auto;
+  }
+  .dropzone{
+    border-radius:22px;
+    border: 2px dashed rgba(245,238,218,0.45);
+    background: rgba(11,31,21,0.18);
+    padding: 26px 20px;
+    text-align:center;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .dropzone.drag{
+    border-color: var(--yellow);
+    background: rgba(245,203,44,0.10);
+  }
+  .btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:"Space Grotesk", sans-serif;
+    font-weight:700;
+    letter-spacing:0.4px;
+    border-radius:999px;
+    padding: 16px 20px;
+    font-size:15px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:active{ transform: translateY(2px); }
+  .btn-primary{
+    background: var(--pink);
+    color: var(--cream);
+    border: 2px solid var(--yellow);
+    box-shadow: 4px 4px 0 var(--green-deep);
+  }
+  .btn-primary:active{ box-shadow: 2px 2px 0 var(--green-deep); }
+  .btn-outline{
+    background: transparent;
+    color: var(--yellow);
+    border: 2px solid var(--yellow);
+  }
+  .btn-ghost{
+    background:transparent;
+    color: rgba(245,238,218,0.8);
+    border: none;
+    text-decoration: underline;
+    text-underline-offset:3px;
+    font-weight:600;
+    padding: 10px;
+  }
+  .helper{
+    text-align:center;
+    font-family:"Space Mono", monospace;
+    font-size:11px;
+    color: rgba(245,238,218,0.55);
+    margin-top:12px;
+    letter-spacing:0.5px;
+  }
+  input[type=file]{ display:none; }
+
+  /* ---------- result / editor ---------- */
+  .result-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .result-head h2{
+    font-family:"Ultra", serif;
+    color: var(--yellow);
+    font-size:20px;
+    margin:0;
+    text-shadow: 2px 2px 0 var(--green-deep);
+  }
+  .link-btn{
+    background:none;border:none;cursor:pointer;
+    font-family:"Space Mono", monospace;
+    font-size:11px;
+    color: var(--cream);
+    letter-spacing:0.5px;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    padding:4px;
+  }
+
+  .stage{
+    position:relative;
+    border-radius:24px;
+    padding:14px;
+    background: var(--green-deep);
+    border: 1.5px dashed rgba(245,238,218,0.4);
+  }
+  .canvas-holder{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:16px;
+    overflow:hidden;
+    touch-action:none;
+    cursor:grab;
+  }
+  .canvas-holder:active{ cursor:grabbing; }
+  canvas#stageCanvas{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .hint{
+    position:absolute;
+    left:50%;
+    bottom:10px;
+    transform: translateX(-50%);
+    background: rgba(11,31,21,0.72);
+    color: var(--cream);
+    font-family:"Space Mono", monospace;
+    font-size:10.5px;
+    letter-spacing:0.3px;
+    padding:7px 12px;
+    border-radius:999px;
+    pointer-events:none;
+    transition: opacity .4s ease;
+    white-space:nowrap;
+  }
+  .hint.hidden{ opacity:0; }
+
+  .zoom-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:14px;
+    padding: 0 4px;
+  }
+  .zoom-row span{ font-size:15px; color: rgba(245,238,218,0.7); flex:none; }
+  input[type=range]{
+    -webkit-appearance:none;
+    appearance:none;
+    flex:1;
+    height:4px;
+    border-radius:999px;
+    background: rgba(245,238,218,0.3);
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:20px; height:20px;
+    border-radius:50%;
+    background: var(--yellow);
+    border: 2px solid var(--green-deep);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px; height:18px;
+    border-radius:50%;
+    background: var(--yellow);
+    border: 2px solid var(--green-deep);
+    cursor:pointer;
+  }
+
+  .recenter{
+    text-align:center;
+    margin-top:8px;
+  }
+
+  .actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:22px;
+  }
+  .actions .row{ display:flex; gap:12px; }
+  .actions .row .btn{ flex:1; }
+
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:22px;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--yellow);
+    color: var(--ink);
+    font-family:"Space Grotesk", sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    padding: 12px 18px;
+    border-radius:999px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+    z-index: 50;
+    max-width: 90vw;
+    text-align:center;
+  }
+  .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+
+  .error-box{
+    display:none;
+    background: rgba(154,17,83,0.22);
+    border: 1.5px solid var(--pink);
+    color: var(--cream);
+    font-size:13px;
+    border-radius:14px;
+    padding: 12px 14px;
+    margin-top:14px;
+    line-height:1.4;
+  }
+  .error-box.show{ display:block; }
+
+  .loading-overlay{
+    position:fixed;
+    inset:0;
+    background: rgba(11,31,21,0.82);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:16px;
+    z-index: 100;
+  }
+  .loading-overlay.show{ display:flex; }
+  .spinner{
+    width:44px; height:44px;
+    border-radius:50%;
+    border: 4px solid rgba(245,238,218,0.25);
+    border-top-color: var(--yellow);
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  .loading-overlay p{
+    font-family:"Space Mono", monospace;
+    font-size:12.5px;
+    color: var(--cream);
+    letter-spacing:0.4px;
+  }
+
+  footer.foot{
+    text-align:center;
+    font-family:"Space Mono", monospace;
+    font-size:10px;
+    letter-spacing:0.6px;
+    color: rgba(245,238,218,0.4);
+    padding-top:26px;
+  }
+
+  @media (min-width:520px){
+    .wrap{ padding-top:30px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="lockup">
+      <span class="word">HACKER<br>HOUSE</span>
+      <span class="badge">गोवा</span>
+    </div>
+    <div class="meta">GOA, INDIA<br>OCT 28&ndash;31, 2026</div>
+  </header>
+
+  <main>
+
+    <!-- ===================== LANDING VIEW ===================== -->
+    <section id="view-landing" class="view active">
+      <div class="eyebrow"><span class="dot"></span>BOARDING PASS &middot; HH GOA 2026</div>
+
+      <h1 class="headline">FRAME YOUR<br><span class="pop">GOA.</span></h1>
+
+      <p class="sub">One photo, one official Hacker&nbsp;House&nbsp;Goa&nbsp;2026 pass. Built right on your phone &mdash; nothing gets uploaded anywhere.</p>
+
+      <div class="upload-card">
+        <div class="dropzone" id="dropzone">
+          <button class="btn btn-primary" id="uploadBtn" type="button">&#128247;&nbsp; UPLOAD YOUR PHOTO</button>
+          <div class="helper">JPG &middot; PNG &middot; HEIC/HEIF</div>
+        </div>
+        <div class="error-box" id="landingError"></div>
+      </div>
+
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/jpg,image/heic,image/heif,.heic,.heif">
+    </section>
+
+    <!-- ===================== RESULT VIEW ===================== -->
+    <section id="view-result" class="view">
+      <div class="result-head">
+        <h2>YOUR PASS IS READY</h2>
+        <button class="link-btn" id="startOverTop">start over</button>
+      </div>
+
+      <div class="stage">
+        <div class="canvas-holder" id="canvasHolder">
+          <canvas id="stageCanvas" width="1080" height="1080"></canvas>
+          <div class="hint" id="dragHint">DRAG TO MOVE &middot; PINCH/SCROLL TO ZOOM</div>
+        </div>
+      </div>
+
+      <div class="zoom-row">
+        <span>&minus;</span>
+        <input type="range" id="zoomSlider" min="1" max="3" step="0.01" value="1">
+        <span>&plus;</span>
+      </div>
+      <div class="recenter">
+        <button class="link-btn" id="recenterBtn">recenter photo</button>
+      </div>
+
+      <div class="error-box" id="resultError"></div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="downloadBtn">&#11015;&nbsp; DOWNLOAD PFP</button>
+        <div class="row">
+          <button class="btn btn-outline" id="shareBtn">𝕏&nbsp; SHARE TO X</button>
+        </div>
+        <button class="btn btn-ghost" id="createAnotherBtn">Create another</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="foot">#FRAMEINGOA &middot; HHGOA.COM</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p id="loadingText">PREPARING YOUR PHOTO&hellip;</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================================
+   PART 1 — Frame drawing logic
+   Ported from the HH Goa reference (frame.mjs / render.mjs), adapted for
+   the browser Canvas2D API. Colors, layout, type and composition are kept
+   identical to the source-of-truth reference files.
+   ========================================================================= */
+
+const C = {
+  green: '#1B5E3B',
+  greenDeep: '#0E3823',
+  greenLight: '#276A42',
+  yellow: '#F5CB2C',
+  yellowDeep: '#C6871B',
+  pink: '#EA1C79',
+  pinkDeep: '#9A1153',
+  cream: '#F5EEDA',
+  ink: '#0B1F15'
+};
+
+function roundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function drawBackground(ctx, size) {
+  ctx.fillStyle = C.green;
+  ctx.fillRect(0, 0, size, size);
+
+  ctx.save();
+  ctx.strokeStyle = C.greenLight;
+  ctx.globalAlpha = 0.35;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  const spacing = 16;
+  for (let x = -size; x < size * 2; x += spacing) {
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x - size, size);
+  }
+  ctx.stroke();
+  ctx.restore();
+
+  const grad = ctx.createRadialGradient(size/2, size/2, size*0.30, size/2, size/2, size*0.72);
+  grad.addColorStop(0, 'rgba(0,0,0,0)');
+  grad.addColorStop(1, 'rgba(6,20,13,0.35)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,size,size);
+}
+
+function drawOuterBorder(ctx, size) {
+  const inset = 26;
+  ctx.save();
+  ctx.strokeStyle = C.yellow;
+  ctx.lineWidth = 3;
+  roundedRect(ctx, inset, inset, size - inset*2, size - inset*2, 28);
+  ctx.stroke();
+
+  ctx.setLineDash([2, 10]);
+  ctx.lineWidth = 4;
+  ctx.lineCap = 'round';
+  roundedRect(ctx, inset + 12, inset + 12, size - (inset+12)*2, size - (inset+12)*2, 20);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function leafPath(ctx, len, width, bow) {
+  if (bow === undefined) bow = 0.35;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.quadraticCurveTo(len * 0.5, -width * bow - width/2, len, 0);
+  ctx.quadraticCurveTo(len * 0.5, width/2, 0, 0);
+  ctx.closePath();
+}
+
+function sparkle(ctx, x, y, r, color) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  for (let i = 0; i < 4; i++) {
+    const a = (Math.PI / 2) * i;
+    ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+    const am = a + Math.PI/4;
+    ctx.lineTo(Math.cos(am) * r * 0.28, Math.sin(am) * r * 0.28);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawCornerFlourish(ctx, size) {
+  ctx.save();
+
+  ctx.beginPath();
+  ctx.moveTo(size * 0.06, size * 0.06);
+  ctx.bezierCurveTo(
+    size * 0.30, size * 0.10,
+    size * 0.46, size * 0.20,
+    size * 0.50, size * 0.44
+  );
+  ctx.bezierCurveTo(
+    size * 0.53, size * 0.60,
+    size * 0.46, size * 0.70,
+    size * 0.34, size * 0.68
+  );
+
+  ctx.strokeStyle = C.yellow;
+  ctx.lineWidth = size * 0.022;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  const leafSpecs = [
+    { t: [size*0.16, size*0.075], angle: 18,  len: size*0.30, w: size*0.13, side: 1, color: C.yellow },
+    { t: [size*0.365, size*0.145], angle: 60, len: size*0.24, w: size*0.11, side: -1, color: C.pink },
+    { t: [size*0.505, size*0.33], angle: 100, len: size*0.20, w: size*0.10, side: 1, color: C.yellow },
+  ];
+  for (const l of leafSpecs) {
+    ctx.save();
+    ctx.translate(l.t[0], l.t[1]);
+    ctx.rotate((l.angle * l.side) * Math.PI / 180);
+    ctx.fillStyle = l.color;
+    leafPath(ctx, l.len, l.w);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  ctx.fillStyle = C.pink;
+  ctx.beginPath(); ctx.arc(size*0.08, size*0.08, size*0.028, 0, Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = C.cream;
+  ctx.beginPath(); ctx.arc(size*0.40, size*0.665, size*0.022, 0, Math.PI*2); ctx.fill();
+
+  sparkle(ctx, size*0.60, size*0.10, size*0.028, C.yellow);
+  sparkle(ctx, size*0.16, size*0.50, size*0.020, C.pink);
+
+  ctx.restore();
+}
+
+function drawCorners(ctx, size, margin, s) {
+  ctx.save(); ctx.translate(margin, margin); drawCornerFlourish(ctx, s); ctx.restore();
+  ctx.save(); ctx.translate(size - margin, margin); ctx.scale(-1, 1); drawCornerFlourish(ctx, s); ctx.restore();
+  ctx.save(); ctx.translate(margin, size - margin); ctx.scale(1, -1); drawCornerFlourish(ctx, s); ctx.restore();
+  ctx.save(); ctx.translate(size - margin, size - margin); ctx.scale(-1, -1); drawCornerFlourish(ctx, s); ctx.restore();
+}
+
+function drawArcText(ctx, opts) {
+  const { text, cx, cy, radius, centerAngle, font, color } = opts;
+  const mode = opts.mode || 'outward';
+  const letterSpacing = opts.letterSpacing || 0;
+  ctx.save();
+  ctx.font = font;
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  const chars = Array.from(text);
+  const widths = chars.map(ch => ctx.measureText(ch).width + letterSpacing);
+  const totalWidth = widths.reduce((a,b)=>a+b,0);
+  const totalAngle = totalWidth / radius;
+  const dir = mode === 'outward' ? 1 : -1;
+  let a = centerAngle - dir * (totalAngle / 2);
+
+  for (let i = 0; i < chars.length; i++) {
+    const w = widths[i];
+    const charAngle = w / radius;
+    a += dir * (charAngle / 2);
+    const x = cx + radius * Math.cos(a);
+    const y = cy + radius * Math.sin(a);
+    const rot = mode === 'outward' ? a + Math.PI/2 : a - Math.PI/2;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.fillText(chars[i], 0, 0);
+    ctx.restore();
+    a += dir * (charAngle / 2);
+  }
+  ctx.restore();
+}
+
+function coverFit(imgW, imgH, boxW, boxH) {
+  const scale = Math.max(boxW / imgW, boxH / imgH);
+  return { w: imgW * scale, h: imgH * scale, scale };
+}
+
+function drawPhoto(ctx, img, opts) {
+  const cx = opts.cx, cy = opts.cy, radius = opts.radius;
+  const panX = opts.panX || 0, panY = opts.panY || 0, zoom = opts.zoom || 1;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.clip();
+
+  const box = radius * 2;
+  const base = coverFit(img.width, img.height, box, box);
+  const w = base.w * zoom;
+  const h = base.h * zoom;
+  const x = cx - w/2 + panX;
+  const y = cy - h/2 + panY;
+  ctx.drawImage(img, x, y, w, h);
+  ctx.restore();
+}
+
+function drawPhotoRing(ctx, opts) {
+  const cx = opts.cx, cy = opts.cy, radius = opts.radius;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius + 2, 0, Math.PI*2);
+  ctx.lineWidth = 9;
+  ctx.strokeStyle = C.greenDeep;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius + 13, 0, Math.PI*2);
+  ctx.lineWidth = 7;
+  ctx.strokeStyle = C.cream;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius + 21, 0, Math.PI*2);
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = 'rgba(245,238,218,0.55)';
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.setLineDash([2, 12]);
+  ctx.lineCap = 'round';
+  ctx.arc(cx, cy, radius + 31, 0, Math.PI*2);
+  ctx.lineWidth = 5.5;
+  ctx.strokeStyle = C.yellow;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawGoaBadge(ctx, opts) {
+  const cx = opts.cx, cy = opts.cy;
+  const rotationDeg = opts.rotationDeg === undefined ? -6 : opts.rotationDeg;
+  const scale = opts.scale === undefined ? 1 : opts.scale;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rotationDeg * Math.PI / 180);
+  ctx.scale(scale, scale);
+
+  const w = 300, h = 148;
+  ctx.fillStyle = C.cream;
+  roundedRect(ctx, -w/2 - 10, -h/2 - 10, w + 20, h + 20, 34);
+  ctx.fill();
+
+  ctx.fillStyle = C.pink;
+  roundedRect(ctx, -w/2, -h/2, w, h, 26);
+  ctx.fill();
+
+  ctx.fillStyle = C.yellow;
+  ctx.font = '700 96px "Baloo 2"';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('गोवा', 4, 8);
+
+  ctx.restore();
+}
+
+/* ---- composition constants (match the reference render.mjs exactly) ---- */
+const SIZE = 1080;
+const CX = 540, CY = 494, R = 364;
+
+function renderComposition(ctx, img, photo) {
+  ctx.clearRect(0, 0, SIZE, SIZE);
+  drawBackground(ctx, SIZE);
+  drawCorners(ctx, SIZE, 58, SIZE * 0.20);
+  drawOuterBorder(ctx, SIZE);
+
+  if (img) {
+    drawPhoto(ctx, img, { cx: CX, cy: CY, radius: R, panX: photo.panX, panY: photo.panY, zoom: photo.zoom });
+  } else {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, 0, Math.PI*2);
+    ctx.fillStyle = C.greenDeep;
+    ctx.fill();
+    ctx.restore();
+  }
+  drawPhotoRing(ctx, { cx: CX, cy: CY, radius: R });
+
+  drawArcText(ctx, {
+    text: 'HACKER HOUSE',
+    cx: CX, cy: CY, radius: R + 62, centerAngle: -Math.PI/2, mode: 'outward',
+    font: '50px Ultra', color: C.yellow, letterSpacing: 3
+  });
+
+  drawGoaBadge(ctx, { cx: CX, cy: CY + R - 4, rotationDeg: -6 });
+
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.font = '700 25px "Space Grotesk"';
+  ctx.fillStyle = C.cream;
+  ctx.fillText('GOA, INDIA  \u00B7  28\u201331 OCT 2026', CX, 968);
+  ctx.restore();
+
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.font = '700 26px "Space Mono"';
+  ctx.fillStyle = C.yellow;
+  ctx.fillText('#FRAMEINGOA', CX, 1012);
+  ctx.restore();
+}
+
+/* =========================================================================
+   PART 2 — App state, upload handling, interaction, export
+   ========================================================================= */
+
+const els = {
+  landing: document.getElementById('view-landing'),
+  result: document.getElementById('view-result'),
+  uploadBtn: document.getElementById('uploadBtn'),
+  fileInput: document.getElementById('fileInput'),
+  dropzone: document.getElementById('dropzone'),
+  landingError: document.getElementById('landingError'),
+  resultError: document.getElementById('resultError'),
+  canvas: document.getElementById('stageCanvas'),
+  canvasHolder: document.getElementById('canvasHolder'),
+  dragHint: document.getElementById('dragHint'),
+  zoomSlider: document.getElementById('zoomSlider'),
+  recenterBtn: document.getElementById('recenterBtn'),
+  downloadBtn: document.getElementById('downloadBtn'),
+  shareBtn: document.getElementById('shareBtn'),
+  createAnotherBtn: document.getElementById('createAnotherBtn'),
+  startOverTop: document.getElementById('startOverTop'),
+  toast: document.getElementById('toast'),
+  loadingOverlay: document.getElementById('loadingOverlay'),
+  loadingText: document.getElementById('loadingText'),
+};
+
+const ctx = els.canvas.getContext('2d');
+
+const photoState = { img: null, zoom: 1, panX: 0, panY: 0 };
+
+let toastTimer = null;
+function toast(msg) {
+  els.toast.textContent = msg;
+  els.toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => els.toast.classList.remove('show'), 2600);
+}
+
+function showLoading(msg) {
+  els.loadingText.textContent = (msg || 'WORKING\u2026').toUpperCase();
+  els.loadingOverlay.classList.add('show');
+}
+function hideLoading() { els.loadingOverlay.classList.remove('show'); }
+
+function showError(box, msg) {
+  box.textContent = msg;
+  box.classList.add('show');
+}
+function clearError(box) {
+  box.textContent = '';
+  box.classList.remove('show');
+}
+
+function showLandingView() {
+  els.result.classList.remove('active');
+  els.landing.classList.add('active');
+  clearError(els.resultError);
+}
+function showResultView() {
+  els.landing.classList.remove('active');
+  els.result.classList.add('active');
+  clearError(els.landingError);
+  els.dragHint.classList.remove('hidden');
+  clearTimeout(showResultView._t);
+  showResultView._t = setTimeout(() => els.dragHint.classList.add('hidden'), 3200);
+}
+
+/* ---- fonts ---- */
+let fontsReadyPromise = null;
+function ensureFontsLoaded() {
+  if (fontsReadyPromise) return fontsReadyPromise;
+  const specs = [
+    '400 50px Ultra',
+    '700 96px "Baloo 2"',
+    '700 25px "Space Grotesk"',
+    '700 26px "Space Mono"'
+  ];
+  fontsReadyPromise = Promise.all(specs.map(s => {
+    try { return document.fonts.load(s); } catch (e) { return Promise.resolve(); }
+  })).then(() => document.fonts.ready).catch(() => {});
+  return fontsReadyPromise;
+}
+ensureFontsLoaded();
+
+/* ---- render loop ---- */
+let rafPending = false;
+function scheduleRender() {
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(() => {
+    rafPending = false;
+    renderComposition(ctx, photoState.img, photoState);
+  });
+}
+scheduleRender();
+
+/* ---- pan / zoom clamping ---- */
+function clampZoom(z) { return Math.min(3, Math.max(1, z)); }
+function clampPan() {
+  const img = photoState.img;
+  if (!img) return;
+  const box = R * 2;
+  const base = coverFit(img.width, img.height, box, box);
+  const w = base.w * photoState.zoom;
+  const h = base.h * photoState.zoom;
+  const maxX = Math.max(0, (w - box) / 2);
+  const maxY = Math.max(0, (h - box) / 2);
+  photoState.panX = Math.min(maxX, Math.max(-maxX, photoState.panX));
+  photoState.panY = Math.min(maxY, Math.max(-maxY, photoState.panY));
+}
+
+/* =========================================================================
+   PART 3 — File loading: HEIC conversion + EXIF-safe decode
+   ========================================================================= */
+
+let heicLoaderPromise = null;
+function ensureHeic2any() {
+  if (window.heic2any) return Promise.resolve();
+  if (heicLoaderPromise) return heicLoaderPromise;
+  heicLoaderPromise = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.1/index.min.js';
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('heic2any failed to load'));
+    document.head.appendChild(s);
+  });
+  return heicLoaderPromise;
+}
+
+function isHeicFile(file) {
+  const type = (file.type || '').toLowerCase();
+  const name = (file.name || '').toLowerCase();
+  return type.indexOf('heic') !== -1 || type.indexOf('heif') !== -1 ||
+         name.endsWith('.heic') || name.endsWith('.heif');
+}
+
+function isSupportedImage(file) {
+  const type = (file.type || '').toLowerCase();
+  if (type.indexOf('image/') === 0) return true;
+  return isHeicFile(file);
+}
+
+async function loadImageAny(file) {
+  let blob = file;
+
+  if (isHeicFile(file)) {
+    showLoading('Converting HEIC photo\u2026');
+    await ensureHeic2any();
+    try {
+      const converted = await window.heic2any({ blob: file, toType: 'image/jpeg', quality: 0.92 });
+      blob = Array.isArray(converted) ? converted[0] : converted;
+    } catch (e) {
+      throw new Error("Couldn't read that HEIC photo. Try a JPG or PNG instead.");
+    }
+  }
+
+  showLoading('Loading your photo\u2026');
+
+  if (typeof createImageBitmap === 'function') {
+    try {
+      return await createImageBitmap(blob, { imageOrientation: 'from-image' });
+    } catch (e) {
+      try {
+        return await createImageBitmap(blob);
+      } catch (e2) {
+        /* fall through to <img> fallback */
+      }
+    }
+  }
+
+  return await new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Couldn't load that photo. Try a different file."));
+    img.src = URL.createObjectURL(blob);
+  });
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  clearError(els.landingError);
+  clearError(els.resultError);
+
+  if (!isSupportedImage(file)) {
+    showError(els.landing.classList.contains('active') ? els.landingError : els.resultError,
+      'Please choose a JPG, PNG, or HEIC photo.');
+    return;
+  }
+
+  showLoading('Preparing your photo\u2026');
+  try {
+    const img = await loadImageAny(file);
+    await ensureFontsLoaded();
+    photoState.img = img;
+    photoState.zoom = 1;
+    photoState.panX = 0;
+    photoState.panY = 0;
+    els.zoomSlider.value = '1';
+    showResultView();
+    scheduleRender();
+  } catch (err) {
+    const msg = (err && err.message) ? err.message : "Couldn't load that photo. Try a different one.";
+    const active = els.landing.classList.contains('active');
+    showError(active ? els.landingError : els.resultError, msg);
+    if (!active) showResultView();
+  } finally {
+    hideLoading();
+  }
+}
+
+/* =========================================================================
+   PART 4 — Wiring: upload, drag/drop, pan/zoom gestures, actions
+   ========================================================================= */
+
+els.uploadBtn.addEventListener('click', () => els.fileInput.click());
+els.fileInput.addEventListener('change', (e) => {
+  const file = e.target.files && e.target.files[0];
+  handleFile(file);
+});
+
+['dragenter', 'dragover'].forEach(evt => {
+  els.dropzone.addEventListener(evt, (e) => {
+    e.preventDefault();
+    els.dropzone.classList.add('drag');
+  });
+});
+['dragleave', 'drop'].forEach(evt => {
+  els.dropzone.addEventListener(evt, (e) => {
+    e.preventDefault();
+    els.dropzone.classList.remove('drag');
+  });
+});
+els.dropzone.addEventListener('drop', (e) => {
+  const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+
+/* ---- pointer-based pan + pinch zoom on the canvas ---- */
+const pointers = new Map();
+let dragStart = null;
+let pinchStart = null;
+
+function pointDist(a, b) {
+  const dx = a.x - b.x, dy = a.y - b.y;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+
+function canvasScale() {
+  const rect = els.canvas.getBoundingClientRect();
+  return SIZE / rect.width;
+}
+
+els.canvas.addEventListener('pointerdown', (e) => {
+  if (!photoState.img) return;
+  els.canvas.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  els.dragHint.classList.add('hidden');
+  if (pointers.size === 1) {
+    dragStart = { x: e.clientX, y: e.clientY, panX: photoState.panX, panY: photoState.panY };
+    pinchStart = null;
+  } else if (pointers.size === 2) {
+    dragStart = null;
+    const pts = Array.from(pointers.values());
+    pinchStart = { dist: pointDist(pts[0], pts[1]), zoom: photoState.zoom };
+  }
+});
+
+els.canvas.addEventListener('pointermove', (e) => {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  const scale = canvasScale();
+
+  if (pointers.size === 1 && dragStart) {
+    const dx = (e.clientX - dragStart.x) * scale;
+    const dy = (e.clientY - dragStart.y) * scale;
+    photoState.panX = dragStart.panX + dx;
+    photoState.panY = dragStart.panY + dy;
+    clampPan();
+    scheduleRender();
+  } else if (pointers.size === 2 && pinchStart) {
+    const pts = Array.from(pointers.values());
+    const d = pointDist(pts[0], pts[1]);
+    if (pinchStart.dist > 0) {
+      photoState.zoom = clampZoom(pinchStart.zoom * (d / pinchStart.dist));
+      clampPan();
+      els.zoomSlider.value = String(photoState.zoom);
+      scheduleRender();
+    }
+  }
+});
+
+function endPointer(e) {
+  pointers.delete(e.pointerId);
+  if (pointers.size === 1) {
+    const p = Array.from(pointers.values())[0];
+    dragStart = { x: p.x, y: p.y, panX: photoState.panX, panY: photoState.panY };
+    pinchStart = null;
+  } else {
+    dragStart = null;
+    pinchStart = null;
+  }
+}
+els.canvas.addEventListener('pointerup', endPointer);
+els.canvas.addEventListener('pointercancel', endPointer);
+els.canvas.addEventListener('pointerleave', (e) => {
+  if (pointers.size <= 1) endPointer(e);
+});
+
+els.canvas.addEventListener('wheel', (e) => {
+  if (!photoState.img) return;
+  e.preventDefault();
+  const delta = -e.deltaY * 0.0016;
+  photoState.zoom = clampZoom(photoState.zoom * (1 + delta));
+  clampPan();
+  els.zoomSlider.value = String(photoState.zoom);
+  scheduleRender();
+}, { passive: false });
+
+els.zoomSlider.addEventListener('input', () => {
+  if (!photoState.img) return;
+  photoState.zoom = clampZoom(parseFloat(els.zoomSlider.value));
+  clampPan();
+  scheduleRender();
+});
+
+els.recenterBtn.addEventListener('click', () => {
+  photoState.zoom = 1;
+  photoState.panX = 0;
+  photoState.panY = 0;
+  els.zoomSlider.value = '1';
+  scheduleRender();
+  toast('Recentered');
+});
+
+/* ---- download / share / reset ---- */
+
+function exportBlob() {
+  return new Promise((resolve) => {
+    els.canvas.toBlob((blob) => resolve(blob), 'image/png', 1);
+  });
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+els.downloadBtn.addEventListener('click', async () => {
+  if (!photoState.img) return;
+  const blob = await exportBlob();
+  if (!blob) { toast("Couldn't export the image \u2014 try again."); return; }
+  triggerDownload(blob, 'hhgoa-2026-frame.png');
+  toast('Frame downloaded \u2713');
+});
+
+els.shareBtn.addEventListener('click', async () => {
+  if (!photoState.img) return;
+  const blob = await exportBlob();
+  if (blob) {
+    triggerDownload(blob, 'hhgoa-2026-frame.png');
+  }
+  toast('Image downloaded \u2014 attach it on X');
+  const text = encodeURIComponent('Just framed my profile for HH Goa 2026 \uD83C\uDF34 See you in Goa. #FrameInGoa');
+  setTimeout(() => {
+    window.open('https://twitter.com/intent/tweet?text=' + text, '_blank', 'noopener,noreferrer');
+  }, 500);
+});
+
+function resetApp() {
+  photoState.img = null;
+  photoState.zoom = 1;
+  photoState.panX = 0;
+  photoState.panY = 0;
+  els.zoomSlider.value = '1';
+  els.fileInput.value = '';
+  clearError(els.resultError);
+  showLandingView();
+  scheduleRender();
+}
+els.createAnotherBtn.addEventListener('click', resetApp);
+els.startOverTop.addEventListener('click', resetApp);
+
+/* ---- initial paint ---- */
+ensureFontsLoaded().then(scheduleRender);
+
+})();
+</script>
+</body>
+</html>
